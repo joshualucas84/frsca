@@ -53,6 +53,11 @@ spec:
     - name: type
       description: The type of SBOM (spdx|cyclonedx|syft)
       default: spdx
+  results:
+    - name: IMAGE_URL
+      description: image url
+    - name: IMAGE_DIGEST
+      description: image digest
   steps:
     - name: attach
       image: gcr.io/projectsigstore/cosign:v1.8.0@sha256:12b4d428529654c95a7550a936cbb5c6fe93a046ea7454676cb6fb0ce566d78c
@@ -65,6 +70,17 @@ spec:
         - --type
         - $(params.type)
         - $(params.image)
+    - name: results
+      image: regclient/regctl:alpine
+      workingDir: $(workspaces.cosign-ws.path)
+      script: |
+        imageBase=`echo -n "$(params.image)" | sed 's|:[^/]*$||')`
+        imageDigest=`regctl image digest "$(params.image)" | tr ':' '-'`
+        sbomImage="${imageBase}:${imageDigest}.sbom"
+        sbomDigest=`regctl image digest "${sbomImage}"`
+        echo -n "${sbomImage}" | tr -d '[:space:]' | tee $(results.IMAGE_URL.path)
+        echo -n '@'
+        echo -n "${sbomDigest}" | tr -d '[:space:]' | tee $(results.IMAGE_DIGEST.path)
 ---
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline

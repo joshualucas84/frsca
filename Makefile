@@ -24,6 +24,10 @@ help: # Display help
 .PHONY: quickstart
 quickstart: setup-minikube setup-frsca setup-kyverno example-buildpacks ## Spin up the FRSCA project into minikube
 
+.PHONY: setup-openshift
+setup-openshift: setup-certs-openshift setup-registry-openshift setup-tekton-chains-openshift  example-buildpacks
+#setup-spire setup-vault	 
+
 .PHONY: teardown
 teardown:
 	minikube delete
@@ -39,6 +43,10 @@ setup-frsca: setup-certs setup-registry setup-tekton-chains setup-spire setup-va
 setup-certs: ## Setup certificates used by vault and spire
 	bash platform/02-setup-certs.sh
 
+.PHONY: setup-certs-openshift
+setup-certs-openshift: ## Setup certificates used by vault and spire
+	bash platform/03-setup-certs-openshift.sh
+
 .PHONY: setup-registry
 setup-registry: ## Setup a registry
 	bash platform/04-registry-setup.sh
@@ -47,11 +55,22 @@ setup-registry: ## Setup a registry
 registry-proxy: ## Forward the registry to the host
 	bash platform/05-registry-proxy.sh
 
+.PHONY: setup-registry-openshift
+setup-registry-openshift: ## Setup a registry openshift
+	bash platform/06-registry-setup-openshift.sh
+
 .PHONY: setup-tekton-chains
 setup-tekton-chains: ## Setup a Tekton CD with Chains.
 	bash platform/10-tekton-setup.sh
 	bash platform/11-tekton-chains.sh
 	bash platform/12-tekton-tasks.sh
+
+
+.PHONY: setup-tekton-chains-openshift
+setup-tekton-chains-openshift: ## Setup a Tekton CD with Chains.
+	bash platform/13-tekton-setup-openshift.sh
+	bash platform/14-tekton-chains-openshift.sh
+	bash platform/15-tekton-tasks-openshift.sh
 
 .PHONY: tekton-generate-keys
 tekton-generate-keys: ## Generate key pair for Tekton.

@@ -1,0 +1,29 @@
+kind: SecurityContextConstraints
+apiVersion: security.openshift.io/v1
+metadata:
+  name: registry-security-context
+  namespace: registry
+allowPrivilegedContainer: true
+allowHostDirVolumePlugin: true
+allowHostNetwork: true
+allowHostPorts: true
+runAsUser:
+  type: RunAsAny
+seLinuxContext:
+  type: RunAsAny
+fsGroup:
+  type: RunAsAny
+supplementalGroups:
+  type: RunAsAny
+users:
+- registry-sa
+- system:serviceaccount:registry:registry-sa 
+groups:
+- registry-sa
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: registry-sa
+  namespace: registry
+---

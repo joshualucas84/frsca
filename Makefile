@@ -35,6 +35,9 @@ setup-minikube: ## Setup a Kubernetes cluster using Minikube
 .PHONY: setup-frsca
 setup-frsca: setup-certs install-components setup-components setup-kyverno
 
+.PHONY: setup-openshift
+setup-openshift: setup-certs setup-openshift-service-accounts install-components setup-components  setup-kyverno patch-openshift-components
+
 .PHONY: install-components
 install-components: 
 	make -j install-tekton-pipelines install-tekton-chains install-spire install-vault install-gitea install-kyverno
@@ -50,6 +53,10 @@ setup-certs: ## Setup certificates used by vault and spire
 .PHONY: setup-registry
 setup-registry: ## Setup a registry
 	bash platform/04-registry-setup.sh
+
+.PHONY: setup-openshift-service-accounts
+setup-openshift-service-accounts: ## setup-openshift-service-accounts
+	bash platform/08-setup-openshift-serviceaccounts.sh
 
 .PHONY: registry-proxy
 registry-proxy: ## Forward the registry to the host
@@ -111,6 +118,11 @@ install-kyverno: ## Install Kyverno
 .PHONY: setup-kyverno
 setup-kyverno: ## Setup Kyverno
 	bash platform/31-kyverno-setup.sh
+
+.PHONY: patch-openshift-components
+patch-openshift-components: ## Patch Openshift Components
+	bash platform/40-patch-openshift-registry.sh
+
 
 .PHONY: setup-opa-gatekeeper
 setup-opa-gatekeeper: ##  Setup opa gatekeeper

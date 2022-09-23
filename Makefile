@@ -89,6 +89,15 @@ setup-vault: ## Setup vault
 	bash platform/25-vault-install.sh
 	bash platform/26-vault-setup.sh
 
+.PHONY: setup-spire-openshift
+setup-spire-openshift: ## Setup spire
+	bash platform/21-spire-setup-openshift.sh
+
+.PHONY: setup-vault-openshift
+setup-vault-openshift: ## Setup vault
+	bash platform/27-vault-install-openshift.sh
+	bash platform/28-vault-setup-openshift.sh
+
 .PHONY: setup-kyverno
 setup-kyverno: ## Setup Kyverno.
 	bash platform/30-kyverno-setup.sh

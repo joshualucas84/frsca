@@ -46,9 +46,9 @@
 
 	
 
-<title>How to Contribute | FRSCA</title>
-<meta name="description" content="Contribute to the Factory for Repeatable Secure Creation of Artifacts.">
-<link rel="canonical" href="https://buildsec.github.io/frsca/docs/contributing/how-to-contribute/">
+<title>Architecture | FRSCA</title>
+<meta name="description" content="Architecture summary of FRSCA.">
+<link rel="canonical" href="https://buildsec.github.io/frsca/docs/getting-started/architecture/">
 
 
 
@@ -98,22 +98,19 @@
         
         
         
+        
+        
+        
           
           
           {
             "@type": "ListItem",
             "position":  3 ,
-            "name": "Contributing",
-            "item": "https://buildsec.github.io/frsca/docs/contributing/"
+            "name": "Getting Started",
+            "item": "https://buildsec.github.io/frsca/docs/getting-started/"
           },
         
       
-        
-        
-        
-        
-        
-        
         
         
         
@@ -127,8 +124,8 @@
           {
             "@type": "ListItem",
             "position":  4 ,
-            "name": "How To Contribute",
-            "item": "https://buildsec.github.io/frsca/docs/contributing/how-to-contribute/"
+            "name": "Architecture",
+            "item": "https://buildsec.github.io/frsca/docs/getting-started/architecture/"
           },
         
       
@@ -223,7 +220,7 @@
 							                           
 									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/quick-start/">Quick Start</a></li>
 							                           
-									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/architecture/">Architecture</a></li>
+									<li><a class="docs-link active" href="https://buildsec.github.io/frsca/docs/getting-started/architecture/">Architecture</a></li>
 							
 					</ul>
 					
@@ -233,7 +230,7 @@
 							<h3>Contributing</h3>
 							<ul class="list-unstyled">
 							                           
-									<li><a class="docs-link active" href="https://buildsec.github.io/frsca/docs/contributing/how-to-contribute/">How to Contribute</a></li>
+									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/contributing/how-to-contribute/">How to Contribute</a></li>
 							
 					</ul>
 					
@@ -256,53 +253,85 @@
 
 	  
   
+  <nav class="docs-toc d-none d-xl-block col-xl-3" aria-label="Secondary navigation">
+  	<div class="page-links">
+  			<h3>On this page</h3>
+  			<nav id="TableOfContents">
+  					<ul>
+  							
+  							<li><a href="https://buildsec.github.io/frsca/docs/getting-started/architecture/#diagram-of-key-components">Diagram of Key Components</a></li>
+  							
+  							
+  							<li><a href="https://buildsec.github.io/frsca/docs/getting-started/architecture/#provisioning">Provisioning</a></li>
+  							
+  							
+  							<li><a href="https://buildsec.github.io/frsca/docs/getting-started/architecture/#pipeline">Pipeline</a></li>
+  							
+  							
+  							<li><a href="https://buildsec.github.io/frsca/docs/getting-started/architecture/#production-recommendations">Production Recommendations</a></li>
+  							
+  							
+  					</ul>
+  			</nav>
+  	</div>
+  </nav>
+  
 
       <main class="docs-content col-lg-11 col-xl-9">
-         <h1>How to Contribute</h1> 
-        
-        <p>The FRSCA project welcomes any kind of contributions, from code to documentation
-via fixing typos. Please feel free to raise an <a href="https://github.com/buildsec/frsca/issues/new/choose">issue</a> if you would like to work
-on something major to ensure efficient collaboration and avoid duplicate effort.</p>
-<p>The code lives in the
-<a href="https://github.com/buildsec/frsca">frsca repository</a>.</p>
-<h2 id="guidelines">Guidelines</h2>
-<ul>
-<li>Use the provided templates to file an <a href="https://github.com/buildsec/frsca/issues/new/choose">issue</a> or a <a href="https://github.com/buildsec/frsca/pulls">pull request</a>.</li>
-<li>Create a topic branch from where you want to base your work.</li>
-<li>Format the files properly. Please use the dedicated <code>Makefile</code> targets.</li>
-<li>If applicable, add some tests to validate your changes and ensure nothing else
-was accidentally broken.</li>
-<li>Commit messages must start with a capitalized and short summary (max. 50
-chars) written in the imperative, followed by an optional, more detailed
-explanatory text which is separated from the summary by an empty line.</li>
-<li>Commit messages should follow best practices, including explaining the context
-of the problem and how it was solved, including in caveats or follow up
-changes required. They should tell the story of the change and provide readers
-understanding of what led to it. Please refer to <a href="http://chris.beams.io/posts/git-commit">How to Write a Git Commit
-Message</a> for more details.</li>
-<li>If your <a href="https://github.com/buildsec/frsca/pulls">pull request</a> is a work in progress, create it as a <a href="https://github.blog/2019-02-14-introducing-draft-pull-requests/">draft pull
-request</a>.</li>
-<li>Any <a href="https://github.com/buildsec/frsca/pulls">pull request</a> inactive for 28 days will be automatically closed. If you
-need more time to work on it, ask maintainers, to add the appropriate label to
-it. Use the <code>@</code> mention in the comments.</li>
-<li>Unless explicitly asked, <a href="https://github.com/buildsec/frsca/pulls">pull request</a> which don't pass all the CI checks
-will not be reviewed. Use the <code>@</code> mention in the comments to ask maintainers
-to help you.</li>
-</ul>
-<h3 id="commit-example">Commit example</h3>
-<pre data-lang="COMMIT_EDITMSG" style="background-color:#2b303b;color:#c0c5ce;" class="language-COMMIT_EDITMSG "><code class="language-COMMIT_EDITMSG" data-lang="COMMIT_EDITMSG"><span>Enforce shell linting
-</span><span>
-</span><span>Uses `shellcheck` and `shfmt` to lint and format shell scripts throughout the
-</span><span>project. Dedicated `Makefile` targets were created to automate the tasks and
-</span><span>the GitHub workflow was updated accordingly.
-</span><span>
-</span><span style="color:#b48ead;">Fixes </span><span style="color:#d08770;">buildsec/frsca#64
-</span></code></pre>
-<p>The following commit is a good example as:</p>
+         <h1>Architecture</h1> 
+        <p class="lead">Architecture summary of FRSCA.</p>
+        <h2 id="diagram-of-key-components">Diagram of Key Components</h2>
+<p><img src="https://buildsec.github.io/frsca/docs/getting-started/architecture/../../../img/frsca.png" alt="frsca-architecture" /></p>
+<h2 id="provisioning">Provisioning</h2>
+<p>The environment is provisioned using <code>make setup-frsca</code> which deploys a variety
+of Cue definitions and Helm charts. The resulting environment contains Tekton,
+Chains, Spire, Vault, the various Tasks, and Pipeline definitions.</p>
+<p>When the infrastructure starts, several components will be defined or running:</p>
 <ol>
-<li>The fist line is a short description and starts with an imperative verb.</li>
-<li>The first paragraph describes why this commit may be useful.</li>
-<li>The last line points to an existing issue and will automatically close it.</li>
+<li>Pipelines, Tasks, and Triggers will be defined according to the definition of
+the environment.</li>
+<li>Cert-manager is deployed in the FRSCA setup to allow the various components
+running inside the cluster to use TLS. In many environments, components like
+Vault, Spire, and the OCI Registry would be external to the cluster and have
+a certificate signed by a public authority or the company's internal CA.</li>
+<li>Vault is deployed with development settings inside the cluster. In many
+environments, this would be managed outside of the cluster.</li>
+<li>Spire is deployed inside the cluster. This is also typically deployed and
+managed external to the cluster.</li>
+<li>Vault is configured with the transit plugin and a long term signing key to
+sign images. Authorization is configured to require a valid OIDC credential
+from Spire. The public signing key is exported from the transit plugin and
+loaded into tooling that needs to verify image signatures.</li>
+<li>Chains is configured to perform signing with Vault and request a Spire
+credential from the Spire Node.</li>
+<li>The Spire Node provides credentials to Chains after verifying the Kubernetes
+service account and namespace of Chains.</li>
+<li>An admission controller is configured to require all containers deployed in
+the FRSCA cluster have been signed by the team that provisions the cluster.</li>
+</ol>
+<h2 id="pipeline">Pipeline</h2>
+<p>The following actions occur in a typical pipeline:</p>
+<ol>
+<li>A developer commits their code to a Git server. That server will typically
+require multiple reviewers to permit a merge into the main branch.</li>
+<li>A Tekton trigger detects the change and creates a PipelineRun.</li>
+<li>The PipelineRun runs one or more TaskRun steps, each of which are monitored
+by Chains.</li>
+<li>TaskRun steps will include SBOM generation and vulnerability scanning.</li>
+<li>A TaskRun step pushes the image and associated SBOM to an OCI repository.</li>
+<li>Chains creates an attestation of the steps performed in the task run.</li>
+<li>Chains signs the image and attestation using credentials from Spire and Vault
+for the signing.</li>
+<li>Chains pushes attestations and signatures to the OCI repository.</li>
+</ol>
+<h2 id="production-recommendations">Production Recommendations</h2>
+<ol>
+<li>Production should be hardened per recommendations from CIS and similar
+organizations.</li>
+<li>The admission controller in production should prevent containers from being
+deployed with privileged access to the host for all user workloads.</li>
+<li>The admission controller should also be configured with the public signing
+key exported from Vault, and require images to be signed with that key.</li>
 </ol>
 
         
@@ -318,34 +347,6 @@ to help you.</li>
     
     
       
-        
-        
-          
-        
-      
-        
-        
-          
-        
-      
-        
-        
-          
-            
-              
-              <a href="https:&#x2F;&#x2F;buildsec.github.io&#x2F;frsca&#x2F;docs&#x2F;getting-started&#x2F;architecture&#x2F;">
-                <div class="card my-1">
-                  <div class="card-body py-2">
-                    &larr; Architecture
-                  </div>
-                </div>
-              </a>
-            
-            
-            
-          
-        
-      
     
   
 
@@ -365,23 +366,23 @@ to help you.</li>
       
       
         
-      
-    
-      
-      
-        
           
           
-          <a class="ms-auto" href="https:&#x2F;&#x2F;buildsec.github.io&#x2F;frsca&#x2F;docs&#x2F;help&#x2F;faq&#x2F;">
+          <a class="ms-auto" href="https:&#x2F;&#x2F;buildsec.github.io&#x2F;frsca&#x2F;docs&#x2F;contributing&#x2F;how-to-contribute&#x2F;">
             <div class="card my-1">
               <div class="card-body py-2">
-                FAQ &rarr;
+                How to Contribute &rarr;
               </div>
             </div>
           </a>
           
           
           
+        
+      
+    
+      
+      
         
       
     

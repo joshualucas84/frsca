@@ -216,9 +216,11 @@
 							<h3>Getting Started</h3>
 							<ul class="list-unstyled">
 							                           
-									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/introduction/">Factory for Repeatable Secure Creation of Artifacts</a></li>
+									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/introduction/">Factory for Repeatable Secure Creation of Artifacts (FRSCA)</a></li>
 							                           
 									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/quick-start/">Quick Start</a></li>
+							                           
+									<li><a class="docs-link" href="https://buildsec.github.io/frsca/docs/getting-started/architecture/">Architecture</a></li>
 							
 					</ul>
 					
@@ -276,7 +278,7 @@
   
 
       <main class="docs-content col-lg-11 col-xl-9">
-        <h1>Using CUE</h1>
+         <h1>Using CUE</h1> 
         <p class="lead">Working with CUE in Factory for Repeatable Secure Creation of Artifacts.</p>
         <h2 id="cue-module-structure">CUE Module Structure</h2>
 <p>The top level of Factory for Repeatable Secure Creation of Artifacts (FRSCA)
@@ -304,7 +306,7 @@ been done in the <code>examples/...</code> directories. In the case of <code>exa
 examples. Of particular note is a comprehension that creates a persistent volume
 claim (PVC) for each pipeline run. A reference to the PVC is added to the
 pipeline run definition by default.</p>
-<pre data-lang="text" style="background-color:#2b303b;color:#c0c5ce;" class="language-text "><code class="language-text" data-lang="text"><span>// generate a PVC for each pipelineRun
+<pre data-lang="txt" style="background-color:#2b303b;color:#c0c5ce;" class="language-txt "><code class="language-txt" data-lang="txt"><span>// generate a PVC for each pipelineRun
 </span><span>persistentVolumeClaim: {
 </span><span> for pr in pipelineRun {
 </span><span>  &quot;\(pr.metadata.generateName)source-ws-pvc&quot;: spec: {
@@ -352,13 +354,40 @@ values (<code>repository</code> in this case) into the CUE definitions.</p>
   
   
   
-  <a href="https:&#x2F;&#x2F;buildsec.github.io&#x2F;frsca&#x2F;docs&#x2F;help&#x2F;faq&#x2F;">
-    <div class="card my-1">
-      <div class="card-body py-2">
-        &larr; FAQ
-      </div>
-    </div>
-  </a>
+    
+    
+    
+    
+      
+        
+        
+          
+        
+      
+        
+        
+          
+            
+              
+              <a href="https:&#x2F;&#x2F;buildsec.github.io&#x2F;frsca&#x2F;docs&#x2F;contributing&#x2F;how-to-contribute&#x2F;">
+                <div class="card my-1">
+                  <div class="card-body py-2">
+                    &larr; How to Contribute
+                  </div>
+                </div>
+              </a>
+            
+            
+            
+          
+        
+      
+        
+        
+          
+        
+      
+    
   
 
   

@@ -29,7 +29,7 @@ KUBECTL_VALIDATE_CHECKSUM_URL=$KUBECTL_URL.sha256
 COSIGN_ARCH=amd64
 COSIGN_BIN=cosign
 COSIGN_OS=$(uname | tr '[:upper:]' '[:lower:]')
-COSIGN_VERSION=v1.8.0
+COSIGN_VERSION=v1.12.0
 COSIGN_RELEASE_URL="https://github.com/sigstore/cosign/releases/download/${COSIGN_VERSION}"
 COSIGN_CHECKSUMS="cosign_checksums.txt"
 COSIGN_ASSET="${COSIGN_BIN}-${COSIGN_OS}-${COSIGN_ARCH}"
@@ -202,7 +202,7 @@ else
     --extra-config=apiserver.service-account-signing-key-file=/var/lib/minikube/certs/sa.key \
     --extra-config=apiserver.service-account-key-file=/var/lib/minikube/certs/sa.pub \
     --extra-config=apiserver.service-account-issuer=api \
-    --extra-config=apiserver.service-account-api-audiences=api,spire-server \
+    --extra-config=apiserver.api-audiences=api,spire-server \
     --extra-config=apiserver.authorization-mode=Node,RBAC \
     --memory max
 fi

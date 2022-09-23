@@ -7,7 +7,7 @@ GIT_ROOT=$(git rev-parse --show-toplevel)
 C_GREEN='\033[32m'
 C_RESET_ALL='\033[0m'
 
-for ns in cert-manager registry spire tekton-chains tekton-pipelines vault; do
+for ns in cert-manager gitea registry spire tekton-chains tekton-pipelines vault; do
   kubectl create namespace "${ns}" --dry-run=client -o=yaml | kubectl apply -f -
 done
 
@@ -17,6 +17,7 @@ kubectl rollout status -n cert-manager deployment/cert-manager
 kubectl rollout status -n cert-manager deployment/cert-manager-webhook
 
 kubectl -n cert-manager apply -f "${GIT_ROOT}/platform/components/cert-manager/ca.yaml"
+kubectl -n gitea apply -f "${GIT_ROOT}/platform/components/cert-manager/gitea.yaml"
 kubectl -n registry apply -f "${GIT_ROOT}/platform/components/cert-manager/registry.yaml"
 kubectl -n spire apply -f "${GIT_ROOT}/platform/components/cert-manager/spire.yaml"
 
@@ -49,7 +50,7 @@ fi
 
 # convert CA bundle for Java
 echo -e "${C_GREEN}Generating Java CA from gradle image...${C_RESET_ALL}"
-docker run --rm -v "${ca_cert}:/tmp/cert.pem:ro" --entrypoint /bin/bash \
+docker run --rm -v "${ca_cert}:/tmp/cert.pem:ro,z" --entrypoint /bin/bash \
   gcr.io/cloud-builders/gradle \
   -c "openssl x509 -outform der -in /tmp/cert.pem -out /tmp/cert.der >&2 && \
         keytool -importcert -file /tmp/cert.der -storepass changeit -keystore /etc/ssl/certs/java/cacerts -trustcacerts -noprompt >&2 && \
@@ -58,7 +59,7 @@ docker run --rm -v "${ca_cert}:/tmp/cert.pem:ro" --entrypoint /bin/bash \
 
 # TODO: This should be changed to using a volume instead of a value directly in a config map
 #       as it would make it much more straightforward.
-for ns in default registry tekton-chains tekton-pipelines; do
+for ns in default gitea registry tekton-chains tekton-pipelines; do
   kubectl -n "${ns}" create configmap ca-certs \
     --from-file=ca-certificates.crt="${ca_bundle}" \
     --dry-run=client -o=yaml | kubectl apply --server-side=true -f -

@@ -4,6 +4,7 @@ _IMAGE: name: string
 
 _REPOSITORY: *"ttl.sh" | string @tag(repository)
 _APP_IMAGE: *"\(_REPOSITORY)/\(_IMAGE.name)" | string @tag(appImage)
+_GIT_ORG: *"https://gitea-http.gitea:3000/frsca" | string @tag(gitOrg)
 
 frsca: secret: "kube-api-secret": {
 	metadata: annotations: "kubernetes.io/service-account.name": "pipeline-account"
@@ -119,7 +120,7 @@ frsca: task: "grype-vulnerability-scan": {
 				"--config",
 				"/var/grype-config/.grype.yaml"
 			]
-			image: "anchore/grype:v0.35.0@sha256:857934a54874b7efe3d6964851ce54abb5a36d6200cdb62383990a5c7c8d748e"
+			image: "anchore/grype:v0.46.0@sha256:6ccf6ac23f90fde7ea202ce2b18d6ad98d3e8992c73455841167afa27a71d93d"
 			name:  "grype-scanner"
 		}]
 		workspaces: [{

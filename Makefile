@@ -22,11 +22,11 @@ help: # Display help
 		}' $(MAKEFILE_LIST) | sort
 
 .PHONY: quickstart
-quickstart: setup-minikube setup-frsca setup-kyverno example-buildpacks ## Spin up the FRSCA project into minikube
+quickstart: setup-minikube setup-frsca example-buildpacks ## Spin up the FRSCA project into minikube
 
 .PHONY: setup-openshift
 setup-openshift: setup-certs-openshift setup-registry-openshift setup-tekton-chains-openshift  example-buildpacks
-#setup-spire setup-vault	 
+#setup-spire setup-vault
 
 .PHONY: teardown
 teardown:
@@ -37,15 +37,19 @@ setup-minikube: ## Setup a Kubernetes cluster using Minikube
 	bash platform/00-kubernetes-minikube-setup.sh
 
 .PHONY: setup-frsca
-setup-frsca: setup-certs setup-registry setup-tekton-chains setup-spire setup-vault
+setup-frsca: setup-certs install-components setup-components setup-kyverno
+
+.PHONY: install-components
+install-components: 
+	make -j install-tekton-pipelines install-tekton-chains install-spire install-vault install-gitea install-kyverno
+
+.PHONY: setup-components
+setup-components: 
+	make setup-gitea setup-tekton-pipelines setup-tekton-chains setup-spire setup-vault setup-registry
 
 .PHONY: setup-certs
 setup-certs: ## Setup certificates used by vault and spire
 	bash platform/02-setup-certs.sh
-
-.PHONY: setup-certs-openshift
-setup-certs-openshift: ## Setup certificates used by vault and spire
-	bash platform/03-setup-certs-openshift.sh
 
 .PHONY: setup-registry
 setup-registry: ## Setup a registry
@@ -55,7 +59,78 @@ setup-registry: ## Setup a registry
 registry-proxy: ## Forward the registry to the host
 	bash platform/05-registry-proxy.sh
 
-.PHONY: setup-registry-openshift
+.PHONY: install-gitea
+install-gitea:
+	bash platform/06-gitea-install.sh
+
+.PHONY: setup-gitea
+setup-gitea:
+	bash platform/07-gitea-setup.sh
+
+.PHONY: install-tekton-pipelines
+install-tekton-pipelines: ## Install a Tekton CD
+	bash platform/10-tekton-pipelines-install.sh
+
+.PHONY: setup-tekton-pipelines
+setup-tekton-pipelines: ## Setup a Tekton CD
+	bash platform/11-tekton-pipeline-setup.sh
+	bash platform/14-tekton-tasks.sh
+
+.PHONY: install-tekton-chains
+install-tekton-chains: ## Install a Tekton Chains
+	bash platform/12-tekton-chains-install.sh
+
+.PHONY: setup-tekton-chains
+setup-tekton-chains: ## Setup a Tekton Chains
+	bash platform/13-tekton-chains-setup.sh
+
+.PHONY: tekton-generate-keys
+tekton-generate-keys: ## Generate key pair for Tekton
+	bash scripts/gen-keys.sh
+
+.PHONY: tekton-verify-taskrun
+tekton-verify-taskrun: ## Verify taskrun payload against signature
+	bash scripts/provenance.sh
+
+.PHONY: install-spire
+install-spire: ## install spire
+	bash platform/20-spire-install.sh
+
+.PHONY: setup-spire
+setup-spire: ## Setup spire
+	bash platform/21-spire-setup.sh
+
+.PHONY: install-vault
+install-vault: ## Install vault
+	bash platform/25-vault-install.sh
+
+.PHONY: setup-vault
+setup-vault: ## Setup vault
+	bash platform/26-vault-setup.sh
+
+.PHONY: install-kyverno
+install-kyverno: ## Install Kyverno
+	bash platform/30-kyverno-install.sh
+
+.PHONY: setup-kyverno
+setup-kyverno: ## Setup Kyverno
+	bash platform/31-kyverno-setup.sh
+
+.PHONY: setup-opa-gatekeeper
+setup-opa-gatekeeper: ##  Setup opa gatekeeper
+	bash platform/35-opa-gatekeeper-setup.sh
+
+
+.PHONY: setup-spire-openshift
+setup-spire-openshift: ## Setup spire
+	bash platform/21-spire-setup-openshift.sh
+
+.PHONY: setup-vault-openshift
+setup-vault-openshift: ## Setup vault
+	bash platform/27-vault-install-openshift.sh
+	bash platform/28-vault-setup-openshift.sh
+
+PHONY: setup-registry-openshift
 setup-registry-openshift: ## Setup a registry openshift
 	bash platform/06-registry-setup-openshift.sh
 
@@ -72,39 +147,6 @@ setup-tekton-chains-openshift: ## Setup a Tekton CD with Chains.
 	bash platform/14-tekton-chains-openshift.sh
 	bash platform/15-tekton-tasks-openshift.sh
 
-.PHONY: tekton-generate-keys
-tekton-generate-keys: ## Generate key pair for Tekton.
-	bash scripts/gen-keys.sh
-
-.PHONY: tekton-verify-taskrun
-tekton-verify-taskrun: ## Verify taskrun payload against signature
-	bash scripts/provenance.sh
-
-.PHONY: setup-spire
-setup-spire: ## Setup spire
-	bash platform/20-spire-setup.sh
-
-.PHONY: setup-vault
-setup-vault: ## Setup vault
-	bash platform/25-vault-install.sh
-	bash platform/26-vault-setup.sh
-
-.PHONY: setup-spire-openshift
-setup-spire-openshift: ## Setup spire
-	bash platform/21-spire-setup-openshift.sh
-
-.PHONY: setup-vault-openshift
-setup-vault-openshift: ## Setup vault
-	bash platform/27-vault-install-openshift.sh
-	bash platform/28-vault-setup-openshift.sh
-
-.PHONY: setup-kyverno
-setup-kyverno: ## Setup Kyverno.
-	bash platform/30-kyverno-setup.sh
-
-.PHONY: setup-opa-gatekeeper
-setup-opa-gatekeeper: ##  Setup opa gatekeeper
-	bash platform/31-opa-gatekeeper-setup.sh
 
 .PHONY: setup-efk-stack
 setup-efk-stack: ## Setup up EFK stack

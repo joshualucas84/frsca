@@ -25,8 +25,6 @@ oc adm policy add-scc-to-user anyuid system:serviceaccount:vault:vault-sa || tru
 oc adm policy add-scc-to-user nonroot system:serviceaccount:vault:vault-sa || true
 oc adm policy add-scc-to-user privileged system:serviceaccount:vault:vault-sa || true
 
-
-
 #oc create serviceaccount anyuid for gitea
 oc create serviceaccount gitea-sa -n gitea || true
 oc adm policy add-scc-to-user anyuid system:serviceaccount:gitea:gitea-sa || true
